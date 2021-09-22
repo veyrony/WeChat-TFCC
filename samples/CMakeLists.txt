@@ -25,3 +25,8 @@ endif(tfcc_FOUND)
 
 add_executable(tfcc_runtime_example run_model.cpp)
 target_link_libraries(tfcc_runtime_example tfcc_runtime)
+
+add_executable(demo0 demo0.cpp)
+target_link_libraries(demo0 tfcc_runtime)
+add_executable(demo1 demo1.cpp)
+target_link_libraries(demo1 tfcc_runtime)
