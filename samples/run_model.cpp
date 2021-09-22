@@ -20,7 +20,7 @@
 #include "tfcc.h"
 #include "tfcc_mkl.h"
 
-#include "tfcc_runtime/tfcc_runtime.h"
+#include "tfcc_runtime.h"
 
 std::string load_data_from_file(const std::string& path) {
   std::ifstream ifs(path, std::ios::binary);
