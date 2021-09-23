@@ -14,7 +14,7 @@
 
 from .abs import Abs
 from .argmax import ArgMax
-from .arithmetic import Add, Sub, Mul, Div
+from .arithmetic import Add, Sub, Mul, Div, Mod
 from .clip import Clip
 from .erf import Erf
 from .gelu import Gelu

@@ -29,6 +29,8 @@
 #include "tfcc_runtime/framework/symbolmanager.h"
 #include "tfcc_runtime/framework/types.h"
 
+#include <fstream>
+
 namespace tfcc {
 namespace runtime {
 
@@ -61,6 +63,11 @@ Model::Model(const std::string& data) {
   }
 
   auto zipMap = tfcc::unzip(data);
+  std::ofstream pm("./plain_model");
+  /*
+  for (auto& it : zipMap) {
+    pm << it.first << "---->>>----" << it.second << "\n";
+  }
   if (zipMap.find("model.pb") == zipMap.end()) {
     throw RuntimeError("Invalid model data");
   }
@@ -70,13 +77,17 @@ Model::Model(const std::string& data) {
   if (zipMap.find("userdata") != zipMap.end()) {
     _userData = std::move(zipMap["userdata"]);
   }
-
+    */ 
   const std::string& protoData = zipMap["model.pb"];
   const std::string& npzData = zipMap["model.npz"];
   _modelProto.ParseFromString(protoData);
+  pm << "model.pb:\n";
+  pm << _modelProto.DebugString();
 
   if (zipMap.find("model.cpu.pb") != zipMap.end()) {
     _fusionOpModelProto.ParseFromString(zipMap["model.cpu.pb"]);
+    pm << "model.cpu.pb:\n";
+    pm << _fusionOpModelProto.DebugString();
   }
 
   std::string entranceName = _modelProto.entrance_graph_name();
@@ -144,6 +155,23 @@ inline void Model::getOutputFromGraph(
 
 void Model::run(const data::Inputs& inputs, data::Outputs& outputs) {
   Graph& graph = getEntranceGraph();
+  // debug
+  std::ofstream sf("symbols");
+  sf << "inputs: ";
+  for (auto& input : graph.getInputs()) {
+      sf << input << " ";
+  }
+  sf << "\n";
+  sf << "outputs: ";
+  for (auto& otp : graph.getOutputs()) {
+    sf << otp << " ";
+  }
+  sf << "\n";
+  const auto& symbols = graph.getSymbolManager().getSymbolMap();
+  for (auto& it : symbols) {
+    sf << it.first << " -> Syminfo.pos= " << it.second.pos << "\n";
+  }
+  sf.close();
 
   for (int i = 0; i < inputs.items_size(); ++i) {
     auto& item = inputs.items(i);

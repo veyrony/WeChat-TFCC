@@ -51,6 +51,7 @@ def get_all_converters():
     from .softplus import Softplus
     from .tanh import Tanh
     from .topkv2 import TopKV2
+    from .floormod import FloorMod
 
     return [
         Abs(),
@@ -96,4 +97,5 @@ def get_all_converters():
         Sum(),
         Tanh(),
         TopKV2(),
+        FloorMod(),
     ]

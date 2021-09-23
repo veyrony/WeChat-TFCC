@@ -58,7 +58,7 @@ def main():
     if args.debug:
         log_level = logging.DEBUG
     logging.basicConfig(
-        level=log_level, format="%(asctime)s %(levelname)s: %(message)s"
+        level=log_level, format="%(asctime)s %(levelname)s %(filename)s:%(lineno)d: %(message)s"
     )
 
     parsers = [parser]

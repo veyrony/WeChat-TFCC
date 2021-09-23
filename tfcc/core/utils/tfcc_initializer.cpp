@@ -20,6 +20,7 @@
 #include "exceptions/tfcc_invalidargumenterror.h"
 #include "framework/tfcc_device.h"
 #include "framework/tfcc_session.h"
+#include <iostream>
 
 namespace tfcc {
 
@@ -55,10 +56,16 @@ InitializerGuard Initializer::allocate() {
     std::lock_guard<SpinLock> lck(_mtx);
     for (size_t i = 0; i < _devices.size(); ++i) {
       if (_devices[i].use_count() < count) {
+        printf("tid=%ld, devices[%zu].use_count:%zu < count:%ld, pos=%zu\n", pthread_self(), i, _devices[i].use_count(), count, pos);
         count = _devices[i].use_count();
         pos = i;
+        printf("tid=%ld, count=%ld, pos=%zu\n", pthread_self(), count, pos);
+      } else {
+        printf("tid=%ld, devices[%zu].use_count:%zu >= count:%ld pass\n", pthread_self(), i, _devices[i].use_count(), count);
       }
     }
+    printf("tid=%ld, count=%ld, use devices[%zu], use_count=%zu\n\n", pthread_self(), count, pos, _devices[pos].use_count());
+
     device = _devices[pos];
   }
   device->attach();

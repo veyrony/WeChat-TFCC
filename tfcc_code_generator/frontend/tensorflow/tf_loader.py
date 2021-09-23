@@ -142,7 +142,7 @@ def freeze_session(sess, input_names=None, output_names=None):
 def remove_redundant_nodes(frozen_graph: GraphDef, input_names, output_names):
     output_node_names = [i.split(":")[:-1][0] for i in output_names]
     keep_var_names = [i.split(":")[:-1][0] for i in input_names]
-    queue = output_node_names[:]
+    queue = output_node_names[:] # 从output节点向输入节点推
     reserved_node_names = []
     reserved_nodes = []
     while len(queue) > 0:

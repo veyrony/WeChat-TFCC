@@ -24,6 +24,7 @@ class Minimum(Converter):
         if not self.accept(op):
             return False
 
+        #print("Converter Minimum: op.inputs={}, op.outputs={}".format(op.inputs,op.outputs))
         inp_strs = [inp.name for inp in op.inputs]
         oup_strs = [oup.name for oup in op.outputs]
         graph.append_node(ir.node.math.Min(op.name, graph, inp_strs, oup_strs))

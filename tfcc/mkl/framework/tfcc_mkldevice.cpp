@@ -67,6 +67,7 @@ MKLDevice::MKLDevice(std::unique_ptr<Allocator> allocator)
   _allocator->setRealFree([](void* p) { ::free(p); });
 
   _dispatchThread.reset(new std::thread([this]() { this->dispatchLoop(); }));
+  pthread_setname_np(_dispatchThread->native_handle(), "mkl_dispather");
   _dnnlEngine = new dnnl::engine(dnnl::engine::kind::cpu, 0);
 
   // set constant manager

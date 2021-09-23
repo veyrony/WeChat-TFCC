@@ -189,3 +189,34 @@ class Div(Arithmetic):
             else:
                 return None
         return data
+
+class Mod(Arithmetic):
+    def compute(self, a: np.ndarray, b: np.ndarray):
+        return a % b
+
+    def compute_incomplete_data(self, a: list, b: list):
+        if len(a) != len(b):
+            return None
+        data = []
+        assert len(a) == len(b)
+        for x, y in zip(a, b):
+            if isinstance(x, str) and isinstance(y, str):
+                return None
+            if y == 1:
+                data.append(0)
+            elif (
+                isinstance(x, (int, float))
+                and isinstance(y, (int, float))
+                and self.inputs[0].is_integer()
+            ):
+                data.append(x % y)
+            elif (
+                isinstance(x, (int, float))
+                and isinstance(y, (int, float))
+                and self.inputs[0].is_floating_point()
+            ):
+                data.append(x % y)
+            else:
+                print("Arithmetic Mod error")
+                return None
+        return data

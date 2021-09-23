@@ -42,7 +42,11 @@ def get_tf_version():
 
 
 def get_tf_tensor_shape(tensor):
-    shape = tensor.get_shape().as_list()
+    if tensor.get_shape():
+        shape = tensor.get_shape().as_list()
+    else:
+        shape = [None]
+    #shape = tensor.get_shape().as_list()
     shape = [
         "unknown{}".format(tensor_shape_unknown_counter()) if x is None else x
         for x in shape

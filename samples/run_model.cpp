@@ -39,13 +39,13 @@ std::string load_data_from_file(const std::string& path) {
 int main(int argc, char* argv[]) {
   tfcc::runtime::Graph::setRecordDetailErrorThreadLocal(true);
 
-  if (argc < 3) {
+  if (argc < 2) {
     std::cout << "Usage: " << argv[0] << " [model path]" << std::endl;
     return 1;
   }
-  tfcc::initialize_mkl(1, 4);
+  //tfcc::initialize_mkl(1, 4);
   std::string modelData = load_data_from_file(argv[1]);
-  std::string testData = load_data_from_file(argv[2]);
+  //std::string testData = load_data_from_file(argv[2]);
 
   tfcc::MultiDataLoader loader;
   tfcc::DataLoader::setGlobalDefault(&loader);

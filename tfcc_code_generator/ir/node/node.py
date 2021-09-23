@@ -15,7 +15,7 @@
 import logging
 import typing
 from ir.framework.symbol import Symbol
-
+import logging
 
 class Node(object):
     def __init__(
@@ -91,6 +91,8 @@ class Node(object):
     @property
     def inputs(self) -> typing.List[Symbol]:
         symbols = [self.graph.get_symbol(name) for name in self._inputs]
+        if not all(symbols):
+            logging.debug("node name:{} inputs:{} symbols:{}".format(self._name, self._inputs, symbols))
         assert all(symbols)
         return symbols
 

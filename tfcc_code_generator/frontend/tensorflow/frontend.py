@@ -30,7 +30,7 @@ from .tf_parser import (
 )
 from .converter import get_all_converters
 from . import utils
-
+import logging
 
 def graph2ir(tf_graph: Graph, name, inputs, outputs):
     context = Context()
@@ -40,6 +40,8 @@ def graph2ir(tf_graph: Graph, name, inputs, outputs):
     ir_graph = ir.framework.Graph(context.create_graph_name(name), model)
     converters = get_all_converters()
     ops = tf_graph.get_operations()
+    logging.debug("all converters: "+ "\n".join("{}".format(x) for x in converters))
+    logging.debug("ops: {}".format(ops))
 
     # Add Const symbol first
     inputs = []
@@ -52,12 +54,22 @@ def graph2ir(tf_graph: Graph, name, inputs, outputs):
 
     ops = [op for op in ops if op.type not in ["Const", "Placeholder", "NoOp"]]
 
+    # debug
+    dfile = open("./ir_graph", u"w")
     for op in ops:
         succ = add_op_node(op, converters, ir_graph)
         if not succ:
             log_all_unsupport_nodes(ops, converters)
             raise RuntimeError("Unknow node: {}".format(op))
+    #raise RuntimeError("unknown node")
+    dfile.writelines("name: {}\n".format(ir_graph._name));
+    dfile.writelines("nodes: {}\n".format(ir_graph._nodes));
+    for sbname, sb in ir_graph._symbols.items():
+        dfile.writelines("symbols: {} -> {}\n".format(sbname, sb));
+    dfile.writelines("model: {}\n".format(ir_graph._model));
+    dfile.writelines("keep_symbol_names : {}\n".format(ir_graph._keep_symbol_names));
 
+    dfile.close()
     ir_graph.inputs = inputs
     ir_graph.outputs = outputs
 

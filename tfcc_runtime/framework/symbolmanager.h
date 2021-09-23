@@ -130,6 +130,7 @@ class SymbolManager {
       createSymbol(*it);
     }
   }
+  const std::unordered_map<std::string, SymbolInfo>& getSymbolMap() const;
 
   const SymbolInfo& getSymbolInfo(const std::string& name) const;
 

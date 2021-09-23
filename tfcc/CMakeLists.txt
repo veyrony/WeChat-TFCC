@@ -10,6 +10,13 @@ option(TFCC_WITH_TEST "Build tfcc tests" ON)
 set(TFCC_EXTRA_CXX_FLAGS CACHE STRING "C++ extra build flags")
 set(TFCC_EXTRA_CUDA_FLAGS CACHE STRING "CUDA extra build flags")
 
+## test
+SET(CMAKE_BUILD_TYPE "Debug")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+message("PROJECT_NAME " ${PROJECT_NAME})
+message("PROJECT_BINARY_DIR " ${PROJECT_BINARY_DIR})
+## end
+
 # set c++ 11
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

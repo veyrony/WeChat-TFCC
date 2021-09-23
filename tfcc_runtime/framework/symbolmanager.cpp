@@ -28,6 +28,11 @@
 namespace tfcc {
 namespace runtime {
 
+const std::unordered_map<std::string, SymbolInfo>& SymbolManager::getSymbolMap() const {
+    return _symbolMap;
+}
+
+
 const SymbolInfo& SymbolManager::getSymbolInfo(const std::string& name) const {
   auto it = _symbolMap.find(name);
   if (it == _symbolMap.end()) {

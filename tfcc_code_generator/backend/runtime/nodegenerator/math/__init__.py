@@ -28,6 +28,7 @@ def get_all_node_generators():
     from .matmulwithbias import MatmulWithBias
     from .max import Max
     from .min import Min
+    from .mod import Mod
     from .pow import Pow
     from .reduce import ReduceMean, ReduceSum, ReduceProd, ReduceMax, ReduceMin
     from .relu import Relu
@@ -58,6 +59,7 @@ def get_all_node_generators():
         MatmulWithBias,
         Max,
         Min,
+        Mod,
         Pow,
         ReduceMean,
         ReduceSum,
