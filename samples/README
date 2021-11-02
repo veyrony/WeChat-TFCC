@@ -1,0 +1,8 @@
+test tfcc_runtime_example:
+cpp: run_model.cpp
+
+$ tar -xf simpleDnnModel.tar.gz
+# generate model IR
+$ python3 generator.py --frontend=tensorflow --tf-model-path=/model_absolute_path/freeze_model.pb --tf-model-type=graphdef --backend=runtime --output-path=model.tfccrt  --inputs Variable_167 Variable_168  --outputs pctr/Sigmoid --summary=- --debug
+
+$ ./tfcc_runtime_example ../simpleDnnModel/model.tfccrt
